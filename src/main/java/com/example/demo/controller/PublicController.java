@@ -26,12 +26,12 @@ public class PublicController {
     public ResponseEntity<Map<String, Object>>
     getPublicInfo() {
         log.info("GET /api/public/info reached - Public request received");
-
         Map<String, Object> info =
                 new HashMap<>();
 
         info.put("status", "UP");
         info.put("application", "auth-server");
+        info.put("Git Update", "1.0");
         info.put(
                 "profiles",
                 environment.getActiveProfiles());
