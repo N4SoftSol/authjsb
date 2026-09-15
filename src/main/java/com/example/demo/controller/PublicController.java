@@ -31,7 +31,7 @@ public class PublicController {
 
         info.put("status", "UP");
         info.put("application", "auth-server");
-        info.put("Git Update", "2.0");
+        info.put("Git Update", "6.0");
         info.put(
                 "profiles",
                 environment.getActiveProfiles());
