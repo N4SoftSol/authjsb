@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,29 +14,33 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/public")
 @Slf4j
-public class PublicController {
-    private final Environment environment;
+    public class PublicController {
 
-    public PublicController(
-            Environment environment) {
+        private final Environment environment;
+        private final String appName;
+        private final String appVersion;
 
-        this.environment = environment;
-    }
+        public PublicController(
+                Environment environment,
+                @Value("${info.app.name}") String appName,
+                @Value("${info.app.version}") String appVersion
 
-    @GetMapping("/info")
-    public ResponseEntity<Map<String, Object>>
-    getPublicInfo() {
-        log.info("GET /api/public/info reached - Public request received");
-        Map<String, Object> info =
-                new HashMap<>();
+        ) {
+            this.environment = environment;
+            this.appName = appName;
+            this.appVersion = appVersion;
+        }
 
-        info.put("status", "UP");
-        info.put("application", "auth-server");
-        info.put("Git Update", "6.0");
-        info.put(
-                "profiles",
-                environment.getActiveProfiles());
+        @GetMapping("/info")
+        public ResponseEntity<Map<String, Object>> getPublicInfo() {
+            log.info("GET /api/public/info reached - Public request received");
 
-        return ResponseEntity.ok(info);
-    }
+            Map<String, Object> info = new HashMap<>();
+            info.put("status", "UP");
+            info.put("application", appName);
+            info.put("version", appVersion);
+            info.put("profiles", environment.getActiveProfiles());
+
+            return ResponseEntity.ok(info);
+        }
 }
