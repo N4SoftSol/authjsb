@@ -34,7 +34,10 @@ public class ActuatorSecurityConfig {
                                 "/actuator/health",
                                 "/actuator/info")
                         .permitAll()
-
+                        .requestMatchers(
+                                "/actuator/prometheus",
+                                "/actuator/info")
+                        .permitAll()
                         .requestMatchers(
                                 "/actuator/metrics/**")
                         .hasAuthority("SCOPE_read")
